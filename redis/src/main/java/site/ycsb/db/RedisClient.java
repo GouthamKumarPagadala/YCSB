@@ -29,11 +29,11 @@ import site.ycsb.DB;
 import site.ycsb.DBException;
 import site.ycsb.Status;
 import site.ycsb.StringByteIterator;
-import redis.clients.jedis.BasicCommands;
+import redis.clients.jedis.commands.BasicCommands;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisCommands;
+import redis.clients.jedis.commands.JedisCommands;
 import redis.clients.jedis.Protocol;
 
 import java.io.Closeable;
@@ -80,7 +80,7 @@ public class RedisClient extends DB {
     if (clusterEnabled) {
       Set<HostAndPort> jedisClusterNodes = new HashSet<>();
       jedisClusterNodes.add(new HostAndPort(host, port));
-      jedis = new JedisCluster(jedisClusterNodes);
+      jedis = (JedisCommands) new JedisCluster(jedisClusterNodes);
     } else {
       String redisTimeout = props.getProperty(TIMEOUT_PROPERTY);
       if (redisTimeout != null){
